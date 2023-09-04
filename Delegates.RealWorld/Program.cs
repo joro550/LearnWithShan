@@ -6,6 +6,8 @@ var button = new Button("Click me!");
 
 // Add some logic to it
 var count = 0;
+
+// Adding a delegate to the button (the framework gets to decide on how it looks)
 button.Click += (s, e) => {
     count++;
     button.Text = $"Clicked {count} times";

@@ -1,37 +1,43 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿
+// A delegate is just a "contract" for a method we fulfil that contract with the StartEngine and EngageClutch methods
 
+// manual car?
+var car = new Car();
+car.AddOnStartAction(StartEngine);
+car.AddOnStartAction(EngageClutch);
+car.TurnKey();
 
-// lets define a button 
-var button = new Button();
+// automatic car?
+var car2 = new Car();
+car2.AddOnStartAction(StartEngine);
+car2.TurnKey();
 
-// every time this button is "clicked" it will call this function
-button.OnClick += ButtonClick;
-
-// define another button but it does different things when we "click it"
-var button2 = new Button();
-button2.OnClick += ButtonClick2;
-
-button.OnClick.Invoke();
-button2.OnClick.Invoke();
-
-// we can attach more functions :
-button.OnClick += ButtonClick2;
-button.OnClick.Invoke();
-
-
-void ButtonClick()
+void StartEngine()
 {
-    Console.WriteLine("Hello World");
+    Console.WriteLine("Starting engine");    
 }
 
-void ButtonClick2()
+void EngageClutch()
 {
-    Console.WriteLine("Hello World 2");
+    Console.WriteLine("Engaging clutch");    
 }
 
-public class Button
+public class Car
 {
-    public delegate void ButtonClick();
+    private AutomotiveVehicle.EngineStart OnStart;
 
-    public ButtonClick OnClick;
+    public void AddOnStartAction(AutomotiveVehicle.EngineStart onStartAction)
+    {
+        OnStart += onStartAction;
+    }
+
+    public void TurnKey()
+    {
+        OnStart.Invoke();
+    }
+}
+
+public class AutomotiveVehicle
+{
+    public delegate void EngineStart();
 }
